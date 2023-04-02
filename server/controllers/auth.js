@@ -40,7 +40,6 @@ const login = async (req, res, next) => {
         expiresIn: "24h",
       });
 
-      res.setHeader("Set-Cookie", `token=${token}`);
       return res.json(token);
     }
 
