@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
+
 const prisma = require("../utils/prisma");
 
 const register = async (req, res, next) => {
@@ -34,7 +36,12 @@ const login = async (req, res, next) => {
 
   bcrypt.compare(password, user.password).then((doMatch) => {
     if (doMatch) {
-      return res.json(user);
+      const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
+        expiresIn: "24h",
+      });
+
+      res.setHeader("Set-Cookie", `token=${token}`);
+      return res.json(token);
     }
 
     return res.json("credenziali non valide");
