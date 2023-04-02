@@ -1,0 +1,11 @@
+name: amazing
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env.db
+    volumes:
+      - ./data/db:/var/lib/mysql

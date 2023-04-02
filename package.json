@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "server",
+    "packages/*"
+  ],
+  "scripts": {
+    "migrate": "npx lerna exec --scope=server npm run migrate"
+  },
+  "devDependencies": {
+    "lerna": "^6.6.1"
+  }
+}
