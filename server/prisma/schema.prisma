@@ -7,9 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id    String @id @default(uuid())
-  email String @unique
-  fname String
-  lname String
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  fname    String
+  lname    String
+  password String
 }
