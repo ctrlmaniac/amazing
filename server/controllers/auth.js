@@ -36,9 +36,13 @@ const login = async (req, res, next) => {
 
   bcrypt.compare(password, user.password).then((doMatch) => {
     if (doMatch) {
-      const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
-        expiresIn: "24h",
-      });
+      const token = jwt.sign(
+        { email: user.email, role: user.role },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: "24h",
+        }
+      );
 
       return res.json(token);
     }
