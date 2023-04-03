@@ -7,13 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Article {
+  id          String         @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  priceOffer  Float
+  quantity    Int?
+  images      ArticleImage[]
+  store       Store          @relation(fields: [storeId], references: [id])
+  storeId     String
+}
+
+model ArticleImage {
+  id        String   @id @default(uuid())
+  filepath  String
+  Article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+}
+
+model Store {
+  id      String    @id @default(uuid())
+  name    String
+  users   User[]
+  Article Article[]
+}
+
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
+  id       String  @id @default(uuid())
+  email    String  @unique
   fname    String
   lname    String
   password String
-  role     Role   @default(USER)
+  role     Role    @default(USER)
+  Store    Store?  @relation(fields: [storeId], references: [id])
+  storeId  String?
 }
 
 enum Role {
