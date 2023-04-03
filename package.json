@@ -6,7 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "migrate": "npx lerna exec --scope=server npm run migrate"
+    "migrate": "npx lerna exec --scope=server npm run migrate",
+    "dev:server": "npx lerna exec --scope=server npm run dev"
   },
   "devDependencies": {
     "lerna": "^6.6.1"
