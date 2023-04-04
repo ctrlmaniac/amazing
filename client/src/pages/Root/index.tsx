@@ -1,21 +1,22 @@
 import React from "react";
 import {
   AppBar,
+  Badge,
   Box,
   FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
   Toolbar,
-  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { IconSearch, IconUser } from "@tabler/icons-react";
 import AccediDialog from "./AccediDialog";
+import Cookies from "js-cookie";
+import { isEmpty } from "lodash";
 
 const Root: React.FC = () => {
   const theme = useTheme();
@@ -26,6 +27,8 @@ const Root: React.FC = () => {
     e.preventDefault();
     console.log(value);
   };
+
+  const isLoggedIn = Cookies.get("user-email");
 
   return (
     <>
@@ -60,9 +63,13 @@ const Root: React.FC = () => {
           </Box>
 
           <IconButton onClick={() => setOpenAccediDialog(true)}>
-            <Tooltip title="accedi/registrati">
+            <Badge
+              color="secondary"
+              variant="dot"
+              invisible={!isEmpty(isLoggedIn)}
+            >
               <IconUser />
-            </Tooltip>
+            </Badge>
           </IconButton>
         </Toolbar>
       </AppBar>
