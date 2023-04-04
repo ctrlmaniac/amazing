@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "server",
+    "client",
     "packages/*"
   ],
   "scripts": {
