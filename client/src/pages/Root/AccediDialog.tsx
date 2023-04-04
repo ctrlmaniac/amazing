@@ -11,7 +11,10 @@ import {
   TextField,
 } from "@mui/material";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
+import { AxiosResponse } from "axios";
 import React from "react";
+import api from "~/api";
+import Cookies from "js-cookie";
 
 interface Props {
   open: boolean;
@@ -25,11 +28,27 @@ const AccediDialog: React.FC<Props> = ({ open, handleOpen }) => {
     password: "",
   });
 
+  const [registerValues, setRegisterValues] = React.useState({
+    fname: "",
+    lname: "",
+  });
+
+  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setValues({
       ...values,
+      [name]: value,
+    });
+  };
+
+  const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setRegisterValues({
+      ...registerValues,
       [name]: value,
     });
   };
@@ -42,10 +61,31 @@ const AccediDialog: React.FC<Props> = ({ open, handleOpen }) => {
     event.preventDefault();
   };
 
+  const handleLoginSuccess = (res: AxiosResponse<any, any>) => {
+    Cookies.set("token", res.data.token);
+    Cookies.set("user-email", res.data.email);
+    Cookies.set("user-role", res.data.role);
+    handleOpen(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(values);
+    if (!showRegisterForm) {
+      api
+        .post("/auth/login", values)
+        .then((res) => handleLoginSuccess(res))
+        .catch((err) => setShowRegisterForm(true));
+    } else {
+      const payload = {
+        ...values,
+        ...registerValues,
+      };
+      api
+        .post("/auth/register", payload)
+        .then((res) => handleLoginSuccess(res))
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -67,7 +107,7 @@ const AccediDialog: React.FC<Props> = ({ open, handleOpen }) => {
             margin="normal"
           />
 
-          <FormControl fullWidth variant="outlined">
+          <FormControl fullWidth variant="outlined" margin="normal">
             <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel>
@@ -92,6 +132,26 @@ const AccediDialog: React.FC<Props> = ({ open, handleOpen }) => {
               label="Password"
             />
           </FormControl>
+          {showRegisterForm && (
+            <>
+              <TextField
+                label="Nome"
+                name="fname"
+                value={registerValues.fname}
+                onChange={handleRegisterChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Cognome"
+                name="lname"
+                value={registerValues.lname}
+                onChange={handleRegisterChange}
+                fullWidth
+                margin="normal"
+              />
+            </>
+          )}
         </DialogContent>
         <DialogActions>
           <Button type="submit" fullWidth variant="contained">
