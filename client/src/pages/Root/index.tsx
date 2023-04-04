@@ -9,15 +9,17 @@ import {
   OutlinedInput,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, IconUser } from "@tabler/icons-react";
+import AccediDialog from "./AccediDialog";
 
 const Root: React.FC = () => {
   const theme = useTheme();
-
+  const [openAccediDialog, setOpenAccediDialog] = React.useState(false);
   const [value, setValue] = React.useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -56,6 +58,12 @@ const Root: React.FC = () => {
               </FormControl>
             </form>
           </Box>
+
+          <IconButton onClick={() => setOpenAccediDialog(true)}>
+            <Tooltip title="accedi/registrati">
+              <IconUser />
+            </Tooltip>
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -63,6 +71,8 @@ const Root: React.FC = () => {
       <Box mx={2} mt={3} mb={12}>
         <Outlet />
       </Box>
+
+      <AccediDialog open={openAccediDialog} handleOpen={setOpenAccediDialog} />
     </>
   );
 };
