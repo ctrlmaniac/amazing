@@ -8,6 +8,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Paper,
   Toolbar,
   Typography,
   useTheme,
@@ -34,32 +35,34 @@ const Root: React.FC = () => {
     <>
       <AppBar
         position="fixed"
-        color="inherit"
         elevation={0}
         sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}
       >
         <Toolbar>
           <Typography variant="h6">amazing</Typography>
+
           <Box sx={{ flexGrow: 1 }} px={2}>
-            <form method="post" onSubmit={handleSearch}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="search">Cerca prodotto</InputLabel>
-                <OutlinedInput
-                  id="search"
-                  value={value}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setValue(e.target.value)
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton type="submit" edge="end">
-                        <IconSearch />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </form>
+            <Paper>
+              <form method="post" onSubmit={handleSearch}>
+                <FormControl variant="outlined" fullWidth size="small">
+                  <InputLabel htmlFor="search">Cerca prodotto</InputLabel>
+                  <OutlinedInput
+                    id="search"
+                    value={value}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setValue(e.target.value)
+                    }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton type="submit" edge="end">
+                          <IconSearch />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </form>
+            </Paper>
           </Box>
 
           <IconButton onClick={() => setOpenAccediDialog(true)}>
