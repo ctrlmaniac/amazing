@@ -62,8 +62,9 @@ const AccediDialog: React.FC<Props> = ({ open, handleOpen }) => {
   };
 
   const handleLoginSuccess = (res: AxiosResponse<any, any>) => {
+    console.log(res.data);
     Cookies.set("token", res.data.token);
-    Cookies.set("user-email", res.data.email);
+    Cookies.set("user-id", res.data.id);
     Cookies.set("user-role", res.data.role);
     handleOpen(false);
   };

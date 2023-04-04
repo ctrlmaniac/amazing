@@ -18,10 +18,12 @@ import { IconSearch, IconUser } from "@tabler/icons-react";
 import AccediDialog from "./AccediDialog";
 import Cookies from "js-cookie";
 import { isEmpty } from "lodash";
+import AccountDrawer from "./AccountDrawer";
 
 const Root: React.FC = () => {
   const theme = useTheme();
   const [openAccediDialog, setOpenAccediDialog] = React.useState(false);
+  const [openAccountDrawer, setOpenAccountDrawer] = React.useState(false);
   const [value, setValue] = React.useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -29,7 +31,7 @@ const Root: React.FC = () => {
     console.log(value);
   };
 
-  const isLoggedIn = Cookies.get("user-email");
+  const isLoggedIn = Cookies.get("user-id");
 
   return (
     <>
@@ -65,7 +67,15 @@ const Root: React.FC = () => {
             </Paper>
           </Box>
 
-          <IconButton onClick={() => setOpenAccediDialog(true)}>
+          <IconButton
+            onClick={() => {
+              if (isEmpty(isLoggedIn)) {
+                setOpenAccediDialog(true);
+              } else {
+                setOpenAccountDrawer(true);
+              }
+            }}
+          >
             <Badge
               color="secondary"
               variant="dot"
@@ -83,6 +93,10 @@ const Root: React.FC = () => {
       </Box>
 
       <AccediDialog open={openAccediDialog} handleOpen={setOpenAccediDialog} />
+      <AccountDrawer
+        open={openAccountDrawer}
+        handleOpen={setOpenAccountDrawer}
+      />
     </>
   );
 };

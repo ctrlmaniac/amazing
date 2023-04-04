@@ -25,7 +25,7 @@ const register = async (req, res, next) => {
       });
 
       const token = jwt.sign(
-        { email: user.email, role: user.role },
+        { id: user.id, role: user.role },
         process.env.SECRET_KEY,
         {
           expiresIn: "24h",
@@ -33,7 +33,7 @@ const register = async (req, res, next) => {
       );
 
       return res.json({
-        email: user.email,
+        id: user.id,
         role: user.role,
         token: token,
       });
@@ -59,7 +59,7 @@ const login = async (req, res, next) => {
   bcrypt.compare(password, user.password).then((doMatch) => {
     if (doMatch) {
       const token = jwt.sign(
-        { email: user.email, role: user.role },
+        { id: user.id, role: user.role },
         process.env.SECRET_KEY,
         {
           expiresIn: "24h",
@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
       );
 
       return res.json({
-        email: user.email,
+        id: user.id,
         role: user.role,
         token: token,
       });
