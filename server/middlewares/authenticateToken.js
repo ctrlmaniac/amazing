@@ -6,12 +6,10 @@ const authenticateToken = (req, res, next) => {
 
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-    console.log(err);
-
+  jwt.verify(token, process.env.SECRET_KEY, (err, payload) => {
     if (err) return res.sendStatus(403);
 
-    req.user = user;
+    req.user = payload;
 
     next();
   });
